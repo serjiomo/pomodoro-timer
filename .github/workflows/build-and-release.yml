@@ -75,7 +75,7 @@ jobs:
         run: |
           npm ci
           cd desktop
-          npm ci
+          npm install
 
       - name: Download web build
         uses: actions/download-artifact@v6
