@@ -22,7 +22,7 @@ This document explains the complete GitHub Actions CI/CD pipeline for the Pomodo
 
 **Steps**:
 1. Checkout code
-2. Setup Node.js 20
+2. Setup Node.js 24
 3. Install dependencies
 4. Build web app
 5. Verify build output
@@ -267,7 +267,7 @@ build-windows:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '24'
     - run: npm ci
     - run: npm run build
     - run: |
@@ -289,7 +289,7 @@ build-macos:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '24'
     - run: npm ci
     - run: npm run build
     - run: |

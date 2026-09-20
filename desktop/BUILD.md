@@ -116,7 +116,7 @@ Replace the placeholder icon:
 ## 📋 System Requirements
 
 **Build Requirements:**
-- Node.js 18+ and npm
+- Node.js 24+ and npm
 - 500 MB free disk space
 - GTK3 development libraries
 - libnotify development libraries

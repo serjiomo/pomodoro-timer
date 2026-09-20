@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Pomodoro Focus Timer - Linux Desktop App",
   "main": "main.js",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --config electron-builder.config.js",

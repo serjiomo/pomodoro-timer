@@ -136,11 +136,11 @@ pomodoro-focus/
 ## 🔧 Requirements
 
 ### Web App
-- Node.js 18+
+- Node.js 24+
 - Modern web browser
 
 ### Desktop App
-- Node.js 18+
+- Node.js 24+
 - Linux build tools (GTK3, libnotify)
 - 150 MB disk space
 

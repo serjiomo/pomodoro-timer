@@ -37,7 +37,7 @@ sudo rpm -i pomodoro-focus-1.0.0.x86_64.rpm
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 24+ and npm
 - Linux build tools:
   ```bash
   # Debian/Ubuntu
