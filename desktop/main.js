@@ -24,7 +24,12 @@ function createWindow() {
   });
 
   // Load the built Vite app
-  mainWindow.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
+  // In development: __dirname is /desktop, so we go up one level to find /dist
+  // In production: __dirname is /resources/app, so dist is a sibling directory
+  const indexPath = app.isPackaged
+    ? path.join(__dirname, 'dist', 'index.html')
+    : path.join(__dirname, '..', 'dist', 'index.html');
+  mainWindow.loadFile(indexPath);
 
   // Show window when ready to prevent visual flash
   mainWindow.once('ready-to-show', () => {
