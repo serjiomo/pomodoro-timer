@@ -87,14 +87,26 @@ npm run build
 
 echo -e "${GREEN}✅ Web app built${NC}"
 
-# Step 5: Generate icon
+# Step 5: Generate icon (256x256 PNG required by electron-builder)
 echo ""
-echo -e "${YELLOW}Step 5: Generating app icon...${NC}"
+echo -e "${YELLOW}Step 5: Generating app icon (256x256)...${NC}"
 
 cd "$SCRIPT_DIR"
 node generate-icon.js
 
-echo -e "${GREEN}✅ Icon generated${NC}"
+# Verify icon size
+if [ -f "icon.png" ]; then
+  # Check file size (256x256 PNG should be at least a few KB)
+  FILE_SIZE=$(stat -f%z "icon.png" 2>/dev/null || stat -c%s "icon.png" 2>/dev/null)
+  if [ "$FILE_SIZE" -gt 1000 ]; then
+    echo -e "${GREEN}✅ Icon generated: 256x256 PNG ($FILE_SIZE bytes)${NC}"
+  else
+    echo -e "${YELLOW}⚠️  Icon may be too small. Please provide a 256x256+ icon manually.${NC}"
+  fi
+else
+  echo -e "${RED}❌ Icon generation failed${NC}"
+  exit 1
+fi
 
 # Step 6: Build desktop packages
 echo ""
