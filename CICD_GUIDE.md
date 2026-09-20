@@ -158,11 +158,22 @@ permissions:
   packages: write    # Upload packages
 ```
 
+### Action Versions (Node.js 24 Compatible)
+
+All actions use the latest versions with Node.js 24 runtime:
+```yaml
+- uses: actions/checkout@v7
+- uses: actions/setup-node@v5
+- uses: actions/upload-artifact@v6
+- uses: actions/download-artifact@v6
+- uses: softprops/action-gh-release@v3
+```
+
 ### Caching
 
 Node.js dependencies are cached to speed up builds:
 ```yaml
-- uses: actions/setup-node@v4
+- uses: actions/setup-node@v5
   with:
     cache: 'npm'
 ```
@@ -264,8 +275,8 @@ Edit `.github/workflows/build-and-release.yml`:
 build-windows:
   runs-on: windows-latest
   steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v7
+    - uses: actions/setup-node@v5
       with:
         node-version: '24'
     - run: npm ci
@@ -274,7 +285,7 @@ build-windows:
         cd desktop
         npm ci
         npm run build:win
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v6
       with:
         name: windows-exe
         path: release/*.exe
@@ -286,8 +297,8 @@ build-windows:
 build-macos:
   runs-on: macos-latest
   steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v7
+    - uses: actions/setup-node@v5
       with:
         node-version: '24'
     - run: npm ci
@@ -296,7 +307,7 @@ build-macos:
         cd desktop
         npm ci
         npm run build:mac
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v6
       with:
         name: macos-dmg
         path: release/*.dmg
@@ -308,8 +319,8 @@ build-macos:
 test:
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v7
+    - uses: actions/setup-node@v5
     - run: npm ci
     - run: npm test
 ```
@@ -321,7 +332,7 @@ deploy:
   needs: build-web
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v6
       with:
         name: web-build
     - name: Deploy to Netlify
