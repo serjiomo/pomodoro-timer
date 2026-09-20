@@ -64,12 +64,17 @@ function playNotificationSound() {
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
     const ctx = new AudioContext();
 
+    // Master gain to boost overall volume
+    const masterGain = ctx.createGain();
+    masterGain.gain.value = 1.5;
+    masterGain.connect(ctx.destination);
+
     const playTone = (frequency: number, startTime: number, duration: number, volume: number = 0.3) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
       osc.connect(gain);
-      gain.connect(ctx.destination);
+      gain.connect(masterGain);
 
       osc.type = 'sine';
       osc.frequency.setValueAtTime(frequency, startTime);
@@ -84,14 +89,14 @@ function playNotificationSound() {
 
     // Pleasant three-tone chime: C5 → E5 → G5
     const now = ctx.currentTime;
-    playTone(523.25, now, 0.4, 0.3);        // C5
-    playTone(659.25, now + 0.15, 0.4, 0.3); // E5
-    playTone(783.99, now + 0.3, 0.6, 0.35); // G5 (longer sustain)
+    playTone(523.25, now, 0.4, 0.7);        // C5
+    playTone(659.25, now + 0.15, 0.4, 0.7); // E5
+    playTone(783.99, now + 0.3, 0.6, 0.8);  // G5 (longer sustain)
 
     // Second chime after a short pause
-    playTone(523.25, now + 0.8, 0.4, 0.25);
-    playTone(659.25, now + 0.95, 0.4, 0.25);
-    playTone(783.99, now + 1.1, 0.8, 0.3);
+    playTone(523.25, now + 0.8, 0.4, 0.6);
+    playTone(659.25, now + 0.95, 0.4, 0.6);
+    playTone(783.99, now + 1.1, 0.8, 0.75);
 
     // Close context after sounds finish
     setTimeout(() => ctx.close(), 3000);
