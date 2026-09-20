@@ -5,72 +5,11 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --linux",
-    "build:deb": "electron-builder --linux deb",
-    "build:appimage": "electron-builder --linux AppImage",
-    "build:rpm": "electron-builder --linux rpm",
-    "build:all": "electron-builder --linux deb AppImage rpm"
-  },
-  "build": {
-    "appId": "com.pomodoro.focus",
-    "productName": "Pomodoro Focus",
-    "directories": {
-      "output": "../release"
-    },
-    "files": [
-      "main.js",
-      "preload.js",
-      "../dist/**/*"
-    ],
-    "linux": {
-      "target": [
-        "deb",
-        "AppImage",
-        "rpm"
-      ],
-      "category": "Utility",
-      "icon": "icon.png",
-      "maintainer": "Pomodoro App <pomodoro@example.com>",
-      "desktop": {
-        "Name": "Pomodoro Focus",
-        "Comment": "A clean Pomodoro focus timer",
-        "Categories": "Utility;Productivity;",
-        "Terminal": "false",
-        "Type": "Application"
-      }
-    },
-    "deb": {
-      "priority": "optional",
-      "depends": [
-        "libgtk-3-0",
-        "libnotify4",
-        "libnss3",
-        "libxss1",
-        "libxtst6",
-        "xdg-utils",
-        "libatspi2.0-0",
-        "libuuid1"
-      ],
-      "fpm": [
-        "--after-install=scripts/postinstall.sh"
-      ]
-    },
-    "appImage": {
-      "artifactName": "${productName}-${version}-${arch}.AppImage",
-      "category": "Utility"
-    },
-    "rpm": {
-      "depends": [
-        "gtk3",
-        "libnotify",
-        "nss",
-        "libXScrnSaver",
-        "libXtst",
-        "xdg-utils",
-        "at-spi2-core",
-        "libuuid"
-      ]
-    }
+    "build": "electron-builder --config electron-builder.config.js",
+    "build:deb": "electron-builder --config electron-builder.config.js --linux deb",
+    "build:appimage": "electron-builder --config electron-builder.config.js --linux AppImage",
+    "build:rpm": "electron-builder --config electron-builder.config.js --linux rpm",
+    "build:all": "electron-builder --config electron-builder.config.js --linux deb AppImage rpm"
   },
   "devDependencies": {
     "electron": "^28.0.0",
