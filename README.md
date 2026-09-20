@@ -1,5 +1,8 @@
 # Pomodoro Focus Timer
 
+[![Build and Release](https://github.com/OWNER/pomodoro-focus/workflows/Build%20and%20Release/badge.svg)](https://github.com/OWNER/pomodoro-focus/actions)
+[![CI](https://github.com/OWNER/pomodoro-focus/workflows/CI/badge.svg)](https://github.com/OWNER/pomodoro-focus/actions)
+
 A clean, modern Pomodoro timer web application with optional Linux desktop packaging.
 
 ## 🌟 Features
@@ -152,6 +155,28 @@ Contributions welcome! Please feel free to submit issues or pull requests.
 ## 🙏 Acknowledgments
 
 Built with modern web technologies for a delightful productivity experience.
+
+## 🚀 CI/CD & Releases
+
+This project uses GitHub Actions for automated building and releasing:
+
+- **CI**: Runs on pull requests to validate builds
+- **Release**: Automatically builds and publishes when version tags are pushed
+
+### Creating a Release
+
+```bash
+# Tag a new version
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+GitHub Actions will automatically:
+1. Build the web app
+2. Build Linux packages (deb, AppImage, rpm)
+3. Create a GitHub release with all artifacts
+
+See [`.github/WORKFLOWS.md`](.github/WORKFLOWS.md) for detailed workflow documentation.
 
 ---
 

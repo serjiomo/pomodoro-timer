@@ -1,0 +1,139 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-and-release:
+    name: Build & Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Get version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libgtk-3-dev \
+            libnotify-dev \
+            libnss3 \
+            libxss1 \
+            libxtst6 \
+            xdg-utils \
+            libatspi2.0-0 \
+            libuuid1 \
+            rpm \
+            fakeroot
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd desktop
+          npm ci
+
+      - name: Build web app
+        run: npm run build
+
+      - name: Generate icon
+        run: |
+          cd desktop
+          node generate-icon.js
+
+      - name: Build all Linux packages
+        run: |
+          cd desktop
+          npm run build:all
+
+      - name: List build artifacts
+        run: |
+          echo "=== Build Artifacts ==="
+          ls -lh release/ || echo "No release directory found"
+          echo "======================"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Pomodoro Focus v${{ steps.version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            release/*.deb
+            release/*.AppImage
+            release/*.rpm
+          body: |
+            ## 🍅 Pomodoro Focus v${{ steps.version.outputs.VERSION }}
+            
+            ### 📦 Downloads
+            
+            **Linux:**
+            - `.deb` - Debian/Ubuntu
+            - `.AppImage` - Universal Linux (no install required)
+            - `.rpm` - Fedora/RHEL
+            
+            ### 🚀 Installation
+            
+            **Debian/Ubuntu:**
+            ```bash
+            sudo dpkg -i pomodoro-focus_${{ steps.version.outputs.VERSION }}_amd64.deb
+            ```
+            
+            **Fedora/RHEL:**
+            ```bash
+            sudo rpm -i pomodoro-focus-${{ steps.version.outputs.VERSION }}.x86_64.rpm
+            ```
+            
+            **AppImage (no install):**
+            ```bash
+            chmod +x Pomodoro\ Focus-${{ steps.version.outputs.VERSION }}-x86_64.AppImage
+            ./Pomodoro\ Focus-${{ steps.version.outputs.VERSION }}-x86_64.AppImage
+            ```
+            
+            ### ✨ Features
+            
+            - 🎯 Focus timer with customizable durations
+            - ☕ Short and long break modes
+            - 📊 Daily statistics tracking
+            - 🔔 Sound notifications
+            - 💾 Local data persistence
+            - 🖥️ System tray integration
+            
+            ### 📝 Changelog
+            
+            See [commits](https://github.com/${{ github.repository }}/commits/v${{ steps.version.outputs.VERSION }}) for details.
+            
+            ---
+            
+            **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ steps.version.outputs.VERSION }}...v${{ steps.version.outputs.VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts for debugging
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-artifacts
+          path: release/
+          retention-days: 7
