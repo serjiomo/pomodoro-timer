@@ -59,6 +59,47 @@ function saveStats(stats: Stats) {
   localStorage.setItem('pomodoro-stats', JSON.stringify(stats));
 }
 
+function playNotificationSound() {
+  try {
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    const ctx = new AudioContext();
+
+    const playTone = (frequency: number, startTime: number, duration: number, volume: number = 0.3) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(frequency, startTime);
+
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(volume, startTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+      osc.start(startTime);
+      osc.stop(startTime + duration);
+    };
+
+    // Pleasant three-tone chime: C5 → E5 → G5
+    const now = ctx.currentTime;
+    playTone(523.25, now, 0.4, 0.3);        // C5
+    playTone(659.25, now + 0.15, 0.4, 0.3); // E5
+    playTone(783.99, now + 0.3, 0.6, 0.35); // G5 (longer sustain)
+
+    // Second chime after a short pause
+    playTone(523.25, now + 0.8, 0.4, 0.25);
+    playTone(659.25, now + 0.95, 0.4, 0.25);
+    playTone(783.99, now + 1.1, 0.8, 0.3);
+
+    // Close context after sounds finish
+    setTimeout(() => ctx.close(), 3000);
+  } catch (e) {
+    console.warn('Audio playback failed:', e);
+  }
+}
+
 const MODE_CONFIG: Record<Mode, { label: string; color: string; bgGradient: string; ringColor: string; btnColor: string }> = {
   focus: {
     label: 'Focus',
@@ -91,6 +132,14 @@ export default function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [tempSettings, setTempSettings] = useState<Settings>(loadSettings);
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const saved = localStorage.getItem('pomodoro-sound');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+  const soundEnabledRef = useRef(soundEnabled);
+  useEffect(() => {
+    soundEnabledRef.current = soundEnabled;
+  }, [soundEnabled]);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number | null>(null);
@@ -117,6 +166,10 @@ export default function App() {
           if (prev <= 1) {
             clearInterval(intervalRef.current!);
             setIsRunning(false);
+            // Play notification sound
+            if (soundEnabledRef.current) {
+              playNotificationSound();
+            }
             // Record completed session
             const duration = initialTimeRef.current;
             const newSession: SessionRecord = {
@@ -281,6 +334,22 @@ export default function App() {
           className="bg-white hover:bg-gray-50 text-gray-600 px-6 py-3 rounded-xl font-medium shadow-sm border border-gray-200 transition-all duration-200"
         >
           ↺ Reset
+        </button>
+        <button
+          onClick={() => {
+            const newVal = !soundEnabled;
+            setSoundEnabled(newVal);
+            localStorage.setItem('pomodoro-sound', JSON.stringify(newVal));
+            if (newVal) playNotificationSound(); // Preview sound when enabling
+          }}
+          className={`px-4 py-3 rounded-xl font-medium shadow-sm border transition-all duration-200 ${
+            soundEnabled
+              ? 'bg-white hover:bg-gray-50 text-gray-600 border-gray-200'
+              : 'bg-gray-100 hover:bg-gray-200 text-gray-400 border-gray-200'
+          }`}
+          title={soundEnabled ? 'Sound on' : 'Sound off'}
+        >
+          {soundEnabled ? '🔔' : '🔕'}
         </button>
         <button
           onClick={() => {
