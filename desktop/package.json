@@ -10,10 +10,7 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --config electron-builder.config.js",
-    "build:deb": "electron-builder --config electron-builder.config.js --linux deb",
-    "build:appimage": "electron-builder --config electron-builder.config.js --linux AppImage",
-    "build:rpm": "electron-builder --config electron-builder.config.js --linux rpm",
-    "build:all": "electron-builder --config electron-builder.config.js --linux deb AppImage rpm"
+    "build:appimage": "electron-builder --config electron-builder.config.js --linux AppImage"
   },
   "devDependencies": {
     "electron": "^28.0.0",

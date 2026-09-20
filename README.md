@@ -173,8 +173,8 @@ git push origin v1.0.1
 
 GitHub Actions will automatically:
 1. Build the web app
-2. Build Linux packages (deb, AppImage, rpm)
-3. Create a GitHub release with all artifacts
+2. Build Linux AppImage package
+3. Create a GitHub release with the AppImage artifact
 
 See [`.github/WORKFLOWS.md`](.github/WORKFLOWS.md) for detailed workflow documentation.
 

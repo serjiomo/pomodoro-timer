@@ -48,30 +48,16 @@ This single command will:
 
 **Build time**: ~5-10 minutes
 
-## 📦 Generated Packages
+## 📦 Generated Package
 
 After building, you'll find:
 
 ```
 release/
-├── pomodoro-focus_1.0.0_amd64.deb          # Debian/Ubuntu
-├── Pomodoro Focus-1.0.0-x86_64.AppImage    # Universal Linux
-└── pomodoro-focus-1.0.0.x86_64.rpm         # Fedora/RHEL
+└── Pomodoro Focus-1.0.0-x86_64.AppImage    # Universal Linux
 ```
 
 ## 📥 Install & Run
-
-### Debian/Ubuntu
-```bash
-sudo dpkg -i release/pomodoro-focus_1.0.0_amd64.deb
-pomodoro-focus
-```
-
-### Fedora/RHEL
-```bash
-sudo rpm -i release/pomodoro-focus-1.0.0.x86_64.rpm
-pomodoro-focus
-```
 
 ### AppImage (No Install)
 ```bash

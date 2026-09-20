@@ -1,6 +1,6 @@
 #!/bin/bash
 # Build script for Pomodoro Focus Linux Desktop App
-# Usage: ./build.sh [deb|appimage|rpm|all]
+# Usage: ./build.sh
 
 set -e
 
@@ -29,26 +29,10 @@ echo "✅ Dependencies ready"
 
 # Step 3: Build the desktop app
 echo ""
-echo "📦 Step 3: Building desktop packages..."
+echo "📦 Step 3: Building AppImage package..."
 
-case "${1:-all}" in
-  deb)
-    echo "Building .deb package..."
-    npm run build:deb
-    ;;
-  appimage)
-    echo "Building AppImage..."
-    npm run build:appimage
-    ;;
-  rpm)
-    echo "Building .rpm package..."
-    npm run build:rpm
-    ;;
-  all|*)
-    echo "Building all Linux packages (deb, AppImage, rpm)..."
-    npm run build:all
-    ;;
-esac
+echo "Building AppImage..."
+npm run build:appimage
 
 echo ""
 echo "✅ Build complete!"

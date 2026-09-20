@@ -14,23 +14,11 @@ A clean, feature-rich Pomodoro timer packaged as a native Linux desktop applicat
 
 ## Installation
 
-### Option 1: Debian/Ubuntu (.deb)
-
-```bash
-sudo dpkg -i pomodoro-focus_1.0.0_amd64.deb
-```
-
-### Option 2: AppImage (Universal Linux)
+### AppImage (Universal Linux)
 
 ```bash
 chmod +x Pomodoro\ Focus-1.0.0-x86_64.AppImage
 ./Pomodoro\ Focus-1.0.0-x86_64.AppImage
-```
-
-### Option 3: Fedora/RHEL (.rpm)
-
-```bash
-sudo rpm -i pomodoro-focus-1.0.0.x86_64.rpm
 ```
 
 ## Building from Source
@@ -66,14 +54,7 @@ sudo rpm -i pomodoro-focus-1.0.0.x86_64.rpm
    ./build.sh
    ```
 
-   Or build specific formats:
-   ```bash
-   ./build.sh deb       # Debian package only
-   ./build.sh appimage  # AppImage only
-   ./build.sh rpm       # RPM package only
-   ```
-
-4. **Find your packages** in the `release/` directory
+4. **Find your AppImage** in the `release/` directory
 
 ### Manual Build (Alternative)
 
@@ -101,17 +82,6 @@ npm start
 
 ## Uninstall
 
-### Debian/Ubuntu
-```bash
-sudo apt remove pomodoro-focus
-```
-
-### Fedora/RHEL
-```bash
-sudo rpm -e pomodoro-focus
-```
-
-### AppImage
 Simply delete the AppImage file.
 
 ## Configuration
@@ -129,7 +99,7 @@ Settings are stored locally:
 
 ## Dependencies
 
-The .deb and .rpm packages automatically install required system dependencies:
+The AppImage includes all required dependencies:
 - GTK3
 - libnotify
 - NSS

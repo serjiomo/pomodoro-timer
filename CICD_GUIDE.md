@@ -121,23 +121,11 @@ git push origin main --tags
 
 ### Linux Desktop Packages
 
-#### Debian Package (.deb)
-- **File**: `pomodoro-focus_X.Y.Z_amd64.deb`
-- **Size**: ~80-100 MB
-- **Install**: `sudo dpkg -i pomodoro-focus_X.Y.Z_amd64.deb`
-- **Platforms**: Debian, Ubuntu, Linux Mint
-
 #### AppImage
 - **File**: `Pomodoro Focus-X.Y.Z-x86_64.AppImage`
 - **Size**: ~80-100 MB
 - **Run**: `./Pomodoro\ Focus-X.Y.Z-x86_64.AppImage`
 - **Platforms**: Any Linux distribution (no install needed)
-
-#### RPM Package (.rpm)
-- **File**: `pomodoro-focus-X.Y.Z.x86_64.rpm`
-- **Size**: ~80-100 MB
-- **Install**: `sudo rpm -i pomodoro-focus-X.Y.Z.x86_64.rpm`
-- **Platforms**: Fedora, RHEL, CentOS, openSUSE
 
 ---
 

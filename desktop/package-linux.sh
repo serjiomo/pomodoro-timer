@@ -1,6 +1,6 @@
 #!/bin/bash
 # Complete Linux Desktop Packaging Script
-# Run this on your Linux system to build .deb, AppImage, and .rpm packages
+# Run this on your Linux system to build AppImage package
 
 set -e
 
@@ -108,17 +108,17 @@ else
   exit 1
 fi
 
-# Step 6: Build desktop packages
+# Step 6: Build AppImage package
 echo ""
-echo -e "${YELLOW}Step 6: Building Linux desktop packages...${NC}"
+echo -e "${YELLOW}Step 6: Building AppImage package...${NC}"
 
 # Clean previous builds
 rm -rf "$PROJECT_ROOT/release"
 
-# Build all formats
-npx electron-builder --linux --config electron-builder.config.js
+# Build AppImage
+npx electron-builder --linux AppImage --config electron-builder.config.js
 
-echo -e "${GREEN}✅ Desktop packages built${NC}"
+echo -e "${GREEN}✅ AppImage package built${NC}"
 
 # Step 7: Show results
 echo ""
@@ -128,21 +128,15 @@ echo "============================================="
 echo ""
 echo "📁 Output directory: $PROJECT_ROOT/release/"
 echo ""
-echo "Generated packages:"
+echo "Generated package:"
 echo ""
 
 if [ -d "$PROJECT_ROOT/release" ]; then
-    ls -lh "$PROJECT_ROOT/release/" | grep -E '\.(deb|AppImage|rpm)$' || echo "  (no packages found)"
+    ls -lh "$PROJECT_ROOT/release/" | grep -E '\.AppImage$' || echo "  (no packages found)"
 fi
 
 echo ""
-echo "📦 Installation commands:"
-echo ""
-echo "  Debian/Ubuntu:"
-echo "    sudo dpkg -i release/pomodoro-focus_1.0.0_amd64.deb"
-echo ""
-echo "  Fedora:"
-echo "    sudo rpm -i release/pomodoro-focus-1.0.0.x86_64.rpm"
+echo "📦 Installation command:"
 echo ""
 echo "  AppImage (no install):"
 echo "    chmod +x release/Pomodoro\ Focus-1.0.0-x86_64.AppImage"
